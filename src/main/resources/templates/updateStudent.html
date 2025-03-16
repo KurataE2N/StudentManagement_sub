@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>受講生詳細</title>
+</head>
+<body>
+<h1>受講生詳細</h1>
+<form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
+  <div>
+    <label for="id">ID:</label>
+    <input type="text" id="id" th:field="*{student.id}" required/>
+  </div>
+  <div>
+    <label for="name">名前:</label>
+    <input type="text" id="name" th:field="*{student.name}" required />
+  </div>
+  <div>
+    <label for="furigana">フリガナ:</label>
+    <input type="text" id="furigana" th:field="*{student.furigana}" required />
+  </div>
+  <div>
+    <label for="nickname">ニックネーム:</label>
+    <input type="text" id="nickname" th:field="*{student.nickname}" required />
+  </div>
+  <div>
+    <label for="email">Eメール:</label>
+    <input type="text" id="email" th:field="*{student.email}" required />
+  </div>
+  <div>
+    <label for="region">地域:</label>
+    <input type="text" id="region" th:field="*{student.region}" required />
+  </div>
+  <div>
+    <label for="age">年齢:</label>
+    <input type="text" id="age" th:field="*{student.age}" required />
+  </div>
+  <div>
+    <label for="gender">性別:</label>
+    <input type="text" id="gender" th:field="*{student.gender}" required />
+  </div>
+  <div>
+    <label for="remarks">備考:</label>
+    <input type="text" id="remarks" th:field="*{student.remarks}" required />
+  </div>
+  <div>
+    <label for="isDeleted">キャンセル:</label>
+    <input type="checkbox" id="isDeleted" th:field="*{student.deleted}"/>
+  </div>
+  <div th:each="course, stat : *{studentsCourses}">
+    <label for="courseId"
+           th:for="studentCourse.__${stat.index}__.id">受講コースID：</label>
+    <input type="text" id="courseId" th:id="studentCourse.__${stat.index}__.id"
+           th:field="*{studentsCourses[__${stat.index}__].id}" />
+    <label for="course"
+           th:for="studentCourse.__${stat.index}__.course">受講コース名：</label>
+    <input type="text" id="course" th:id="studentCourse.__${stat.index}__.course"
+           th:field="*{studentsCourses[__${stat.index}__].course}" />
+  </div>
+  <div>
+    <button type="submit">更新</button>
+  </div>
+</form>
+</body>
+</html>
