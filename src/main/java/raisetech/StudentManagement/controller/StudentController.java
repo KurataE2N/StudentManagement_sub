@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.TestException;
-import raisetech.StudentManagement.survice.StudentService;
+import raisetech.StudentManagement.service.StudentService;
 
 /**
  * 受講生の検索や登録、更新などを行うREST APIとして受け付けるControllerです。
