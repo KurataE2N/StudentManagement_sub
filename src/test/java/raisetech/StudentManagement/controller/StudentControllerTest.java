@@ -4,27 +4,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import java.util.Collections;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.GetMapping;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -41,8 +37,6 @@ class StudentControllerTest {
 
   @Test
   void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception {
-    when(service.searchStudentList()).thenReturn(Collections.emptyList());
-
     mockMvc.perform(get("/studentList"))
         .andExpect(status().isOk())
         .andExpect(content().json("[]"));
@@ -60,46 +54,42 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生詳細の登録が実行できて空で返ってくること()
-      throws Exception {
+  void 受講生詳細の登録が実行できて空で返ってくること() throws Exception {
     //リクエストデータは適切に構築して入力チェックの検証も兼ねている。
     //本来であれば返りは登録されたデータが入るが、モック化すると意味がないため、レスポンスは作らない。
-    when(service.registerStudent(any())).thenReturn(null); // または登録結果のダミーオブジェクト
-
-    mockMvc.perform(post("registerStudent").contentType(MediaType.APPLICATION_JSON).content(
-            """
+    mockMvc.perform(post("/registerStudent")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+            {
+              "students": {
+                "name": "江並康介",
+                "furigana": "エナミコウジ",
+                "nickname": "コウジ",
+                "email": "test@example.com",
+                "region": "奈良県",
+                "age": "36",
+                "gender": "男性",
+                "remarks": ""
+             },
+            "studentCourseList" :[
               {
-              "student": {
-              "name": "江並康介",
-              "furigana": "エナミ",
-              "nickname": "コウジ",
-              "email": "test@example.com",
-              "region": "奈良県",
-              "age": "36",
-              "gender": "男性",
-              "remarks": ""
-              },
-              "studentCourseList" :[
-              {
-              "course": "Javaコース"
+                "course": "Javaコース"
               }
               ]
-              }
-              """
-        ))
+            }
+            """))
         .andExpect(status().isOk());
 
-    verify(service, times(1)).registerStudent(any());
+  verify(service, times(1)).registerStudent(any());
   }
 
   @Test
-  void 受講生詳細の更新が実行できて空で返ってくること()
-    throws Exception {
+  void 受講生詳細の更新が実行できて空で返ってくること() throws Exception {
     //リクエストデータは最適に構築して入力チェックの検証も兼ねている。
     mockMvc.perform(put("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(
             """
               {
-              "student": {
+              "students": {
               "id": "12",
               "name": "江並康介",
               "furigana": "エナミ",
@@ -130,7 +120,8 @@ class StudentControllerTest {
   @Test
   void 受講生詳細の例外APIが実行できてステータスが400で返ってくること() throws Exception {
     mockMvc.perform(get("/exception"))
-        .andExpect(status().is4xxClientError())
+        .andDo(print())
+        .andExpect(status().is4xxClientError()) //400を明示的に
         .andExpect(content().string("このAPIは現在利用できません。古いURLとなっています。"));
   }
 
