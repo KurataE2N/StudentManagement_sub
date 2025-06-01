@@ -1,4 +1,4 @@
-package raisetech.StudentManagement.survice;
+package raisetech.StudentManagement.service;
 
 import java.time.LocalDateTime;
 import java.util.List;

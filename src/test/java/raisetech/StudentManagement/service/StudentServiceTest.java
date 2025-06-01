@@ -1,5 +1,6 @@
-package raisetech.StudentManagement.survice;
+package raisetech.StudentManagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -7,7 +8,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,7 +63,7 @@ class StudentServiceTest {
 
     verify(repository, times(1)).searchStudent(id);
     verify(repository, times(1)).searchStudentCourse(id);
-    Assertions.assertEquals(expected.getStudent().getId(), actual.getStudent().getId());
+    assertEquals(expected.getStudent().getId(), actual.getStudent().getId());
   }
 
   @Test
@@ -88,11 +88,9 @@ class StudentServiceTest {
 
     sut.initStudentsCourse(studentCourse, student.getId());
 
-    Assertions.assertEquals("999", studentCourse.getStudentId());
-    Assertions.assertEquals(LocalDateTime.now().getHour(),
-        studentCourse.getClassopen().getHour());
-    Assertions.assertEquals(LocalDateTime.now().plusYears(1).getHour(),
-        studentCourse.getClasscomp().getHour());
+    assertEquals(id, studentCourse.getStudentId());
+    assertEquals(LocalDateTime.now().getHour(), studentCourse.getClassopen().getHour());
+    assertEquals(LocalDateTime.now().plusYears(1).getHour(), studentCourse.getClasscomp().getHour());
   }
 
   @Test
