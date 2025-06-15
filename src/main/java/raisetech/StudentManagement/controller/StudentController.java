@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import raisetech.StudentManagement.domain.ApplicationStatus;
+import raisetech.StudentManagement.domain.CourseApplication;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
+import raisetech.StudentManagement.service.StudentService.CourseApplicationService;
 
 /**
  * 受講生の検索や登録、更新などを行うREST APIとして受け付けるControllerです。
