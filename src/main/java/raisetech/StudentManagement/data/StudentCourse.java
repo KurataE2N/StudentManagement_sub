@@ -14,4 +14,5 @@ public class StudentCourse {
   private String course;
   private LocalDateTime classopen;
   private LocalDateTime classcomp;
+  private String status;
 }
