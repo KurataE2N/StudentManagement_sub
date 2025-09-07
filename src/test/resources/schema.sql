@@ -18,5 +18,6 @@ CREATE TABLE IF NOT EXISTS students_courses
   students_id INT NOT NULL,
   course VARCHAR(50) NOT NULL,
   classopen TIMESTAMP,
-  classcomp TIMESTAMP
+  classcomp TIMESTAMP,
+  status VARCHAR(10)
 );
