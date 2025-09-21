@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
-import raisetech.StudentManagement.domain.ApplicationStatus;
-import raisetech.StudentManagement.domain.CourseApplication;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
@@ -93,11 +91,5 @@ public class StudentService {
     repository.updateStudent(studentDetail.getStudent());
     studentDetail.getStudentCourseList()
         .forEach(studentCourse -> repository.updateStudentCourse(studentCourse));
-  }
-
-  public interface CourseApplicationService {
-    CourseApplication applyToCourse(CourseApplication application);
-    void updateApplicationStatus(String applicationId, ApplicationStatus newStatus);
-    List<CourseApplication> getApplicationsByStudentId(String studentId);
   }
 }
