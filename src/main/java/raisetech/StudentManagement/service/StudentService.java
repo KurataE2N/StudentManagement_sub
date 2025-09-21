@@ -94,10 +94,4 @@ public class StudentService {
     studentDetail.getStudentCourseList()
         .forEach(studentCourse -> repository.updateStudentCourse(studentCourse));
   }
-
-  public interface CourseApplicationService {
-    CourseApplication applyToCourse(CourseApplication application);
-    void updateApplicationStatus(String applicationId, ApplicationStatus newStatus);
-    List<CourseApplication> getApplicationsByStudentId(String studentId);
-  }
 }
